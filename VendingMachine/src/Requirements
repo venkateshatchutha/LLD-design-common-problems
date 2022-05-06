@@ -1,0 +1,106 @@
+1. insert 10, 5, 20, 50 rs notes
+2. if sufficient change is not available cancel the transaction
+3. user should select all the available items and insert the displayed money in VM
+4. VM will display back the money inserted and return the change and products.
+5. if money inserted is not sufficient then ask to insert more or return the money.
+6. admin can set/update the quantity and add new products.
+7. admin can reset the machine
+
+actors:
+1. Customer
+2. admin
+
+use cases:
+1. Customer
+    get list of items displayed
+    add products to cart
+    remove product form cart
+    pay
+    insert money
+    search for product
+2. admin
+    add product
+    set product quantity
+    reset
+    remove product
+    search product
+    set maintenance
+
+classes:
+User:
+    id: int
+    name: string
+    Customer ->
+        Cart : cart
+        PaymentMethod: PaymentMethod (default cash)
+        addProductToCart()
+        UpdateProductInCart()
+        GetProductQuantityInCart()
+        DisplayAllProductsInCart()
+        Pay()
+        InsertMoney()
+        TakeProducts()
+        TakeChange()
+    Admin ->
+        vm : vm
+        addproduct()
+        setproductquantity()
+        reset()
+        removeproduct()
+        searchproduct()
+        setmaintenance()
+
+VM->
+    TakeCash()
+    ReturnChange()
+    ReturnProducts()
+    inventory: List<Products>
+    Reset()
+    GetQuantity(Product)
+    GetAllProducts()
+    setMaintenance()
+
+product ->
+    id:int
+    name: string
+    price: int
+    Quantity: int
+    GetQuantity()
+    GetPrice()
+payment ->
+    cashpayment->
+    paymentStatus: boolean;
+        pay();
+money ->enum
+    5, 10, 20, 50
+Cart ->
+    cartProducts: List<Products>
+    CartPrice : double
+    Pay();
+    addAvailableProduct()
+    UpdateProductQuantity()
+    removeproduct()
+    getaddedQuantity(product): int
+    CalculateCartPrice()
+
+Inventory<T>->
+// i can use generics in java instead of creating two classes for cash and product inventories.
+    add(T item)
+    update(T item, int quantity)
+    getQuantity()
+    Delete()
+    getAll()
+
+    CashInventory->
+
+    prodcutinventory ->
+        AvailableProducts: List<products>
+        addProduct()
+        UpdateProductQuantity()
+        DeleteProduct()
+        GetQuantity()
+Search -> // how to implement search on both inventory and Cart
+    products : List<products>
+    Search(List<products>): product
+
+
